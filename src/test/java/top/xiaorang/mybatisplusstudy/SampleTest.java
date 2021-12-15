@@ -20,4 +20,17 @@ public class SampleTest {
         List<User> userList = userMapper.selectList(null);
         userList.forEach(System.out::println);
     }
+
+    @Test
+    public void testInsert() {
+        User user = User.builder().name("小让的糖果屋").age(2).email("2329862718@qq.com").build();
+        userMapper.insert(user);
+        System.out.println(user);
+    }
+
+    @Test
+    public void testUpdate() {
+        User user = User.builder().id(1471083433073393667L).name("小让的糖果屋1").age(3).email("15019474951@163.com").build();
+        userMapper.updateById(user);
+    }
 }
