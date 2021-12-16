@@ -30,7 +30,26 @@ public class SampleTest {
 
     @Test
     public void testUpdate() {
-        User user = User.builder().id(1471083433073393675L).age(26).email("15019474951@163.com").build();
+        User user = User.builder().id(1471083433073393675L).age(30).email("15019474951@163.com").build();
+        userMapper.updateById(user);
+    }
+
+    @Test
+    public void testUpdate2() {
+        User user = userMapper.selectById(1471083433073393675L);
+        user.setAge(30);
+        userMapper.updateById(user);
+    }
+
+    @Test
+    public void testUpdate3() {
+        User user = userMapper.selectById(1471083433073393675L);
+
+        User user2 = userMapper.selectById(1471083433073393675L);
+        user2.setAge(32);
+        userMapper.updateById(user2);
+
+        user.setAge(30);
         userMapper.updateById(user);
     }
 }

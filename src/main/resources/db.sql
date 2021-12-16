@@ -30,3 +30,5 @@ show variables like '%time_zone%'; -- 查询当前时区
 set global time_zone='+8:00';  -- 在标准时区上加+8小时,即东8区时间
 set time_zone = '+08:00';
 flush privileges; -- 立即生效
+
+alter table user add version int default 1 not null;
