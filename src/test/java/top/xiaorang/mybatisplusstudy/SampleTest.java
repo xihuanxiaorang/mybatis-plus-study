@@ -23,14 +23,14 @@ public class SampleTest {
 
     @Test
     public void testInsert() {
-        User user = User.builder().name("小让的糖果屋").age(2).email("2329862718@qq.com").build();
+        User user = User.builder().name("小让的糖果屋3").age(21).email("2329862718@qq.com").build();
         userMapper.insert(user);
         System.out.println(user);
     }
 
     @Test
     public void testUpdate() {
-        User user = User.builder().id(1471083433073393667L).name("小让的糖果屋1").age(3).email("15019474951@163.com").build();
+        User user = User.builder().id(1471083433073393669L).age(26).email("15019474951@163.com").build();
         userMapper.updateById(user);
     }
 }
