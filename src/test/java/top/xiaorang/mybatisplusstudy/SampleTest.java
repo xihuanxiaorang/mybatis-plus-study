@@ -81,4 +81,15 @@ public class SampleTest {
     page.getRecords().forEach(System.out::println);
     System.out.println(page.getTotal());
   }
+
+  @Test
+  public void testDeleteById() {
+    userMapper.deleteById(1471083433073393675L);
+  }
+
+  @Test
+  public void testSelectById() {
+    User user = userMapper.selectById(1471083433073393675L);
+    System.out.println(user);
+  }
 }
