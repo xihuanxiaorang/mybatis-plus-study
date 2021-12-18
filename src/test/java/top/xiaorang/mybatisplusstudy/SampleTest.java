@@ -92,4 +92,16 @@ public class SampleTest {
     User user = userMapper.selectById(1471083433073393675L);
     System.out.println(user);
   }
+
+  @Test
+  public void testDeleteByBatchId() {
+    userMapper.deleteBatchIds(Arrays.asList(1, 2, 3));
+  }
+
+  @Test
+  public void testDeleteMap(){
+    HashMap<String, Object> map = new HashMap<>();
+    map.put("name","Sandy");
+    userMapper.deleteByMap(map);
+  }
 }
