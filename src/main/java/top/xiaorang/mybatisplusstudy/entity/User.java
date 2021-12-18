@@ -20,6 +20,6 @@ public class User {
     private Date updateTime;
     @Version
     private Integer version;
-//    @TableLogic
+    @TableLogic
     private Integer deleted;
 }
