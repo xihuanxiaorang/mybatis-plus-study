@@ -4,9 +4,12 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import top.xiaorang.mybatisplusstudy.entity.Goods;
 import top.xiaorang.mybatisplusstudy.entity.User;
 import top.xiaorang.mybatisplusstudy.mapper.UserMapper;
+import top.xiaorang.mybatisplusstudy.service.GoodsService;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +17,7 @@ import java.util.List;
 @SpringBootTest
 public class SampleTest {
   @Autowired private UserMapper userMapper;
+  @Autowired private GoodsService goodsService;
 
   @Test
   public void testSelect() {
@@ -99,9 +103,18 @@ public class SampleTest {
   }
 
   @Test
-  public void testDeleteMap(){
+  public void testDeleteMap() {
     HashMap<String, Object> map = new HashMap<>();
-    map.put("name","Sandy");
+    map.put("name", "Sandy");
     userMapper.deleteByMap(map);
+  }
+
+  @Test
+  public void testBatchSave() {
+    List<Goods> goods = new ArrayList<>();
+    for (int i = 0; i < 10000; i++) {
+      goods.add(Goods.builder().name("鞋子" + i).build());
+    }
+    goodsService.saveBatch(goods);
   }
 }
