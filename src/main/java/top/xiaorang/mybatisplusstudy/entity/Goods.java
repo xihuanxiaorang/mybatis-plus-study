@@ -16,10 +16,6 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * <p>
- * 
- * </p>
- *
  * @author xiaorang
  * @since 2021-12-20
  */
@@ -29,37 +25,37 @@ import lombok.Setter;
 @ApiModel(value = "Goods对象", description = "")
 public class Goods implements Serializable {
 
-    private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 1L;
 
-    @ApiModelProperty("主键ID")
-    @TableId(value = "id", type = IdType.ASSIGN_ID)
-    private Long id;
+  @ApiModelProperty("主键ID")
+  @TableId(value = "id", type = IdType.ASSIGN_ID)
+  private Long id;
 
-    @ApiModelProperty("商品名称")
-    private String name;
+  @ApiModelProperty(value = "商品名称", required = true)
+  private String name;
 
-    @ApiModelProperty("编号")
-    private String code;
+  @ApiModelProperty(value = "编号", required = true)
+  private String code;
 
-    @ApiModelProperty("单价")
-    private BigDecimal price;
+  @ApiModelProperty(value = "单价", required = true)
+  private BigDecimal price;
 
-    @ApiModelProperty("备注")
-    private String remark;
+  @ApiModelProperty("备注")
+  private String remark;
 
-    @Version
-    private Integer version;
+  @Version
+  @ApiModelProperty("版本号")
+  private Integer version;
 
-    @TableLogic
-    private Integer deleted;
+  @TableLogic
+  @ApiModelProperty("删除标识")
+  private Integer deleted;
 
-    @ApiModelProperty("更新时间")
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private Date updateTime;
+  @ApiModelProperty("更新时间")
+  @TableField(fill = FieldFill.INSERT_UPDATE)
+  private Date updateTime;
 
-    @ApiModelProperty("创建时间")
-    @TableField(fill = FieldFill.INSERT)
-    private Date createTime;
-
-
+  @ApiModelProperty("创建时间")
+  @TableField(fill = FieldFill.INSERT)
+  private Date createTime;
 }

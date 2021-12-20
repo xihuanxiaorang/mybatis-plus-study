@@ -1,10 +1,8 @@
 package top.xiaorang.mybatisplusstudy.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
-import org.springframework.web.bind.annotation.RestController;
 import top.xiaorang.mybatisplusstudy.entity.Goods;
 import top.xiaorang.mybatisplusstudy.service.GoodsService;
 
@@ -25,10 +23,9 @@ public class GoodsController {
     this.goodsService = goodsService;
   }
 
-  @GetMapping
-  public String save() {
-    goodsService.save(
-        Goods.builder().name("指甲钳").price(new BigDecimal("3.5")).code("0002").build());
+  @PostMapping()
+  public String save(@RequestBody Goods goods) {
+    goodsService.save(goods);
     return "success";
   }
 }
