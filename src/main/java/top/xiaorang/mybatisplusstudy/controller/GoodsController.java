@@ -1,6 +1,6 @@
 package top.xiaorang.mybatisplusstudy.controller;
 
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -11,9 +11,7 @@ import top.xiaorang.mybatisplusstudy.service.GoodsService;
 import java.math.BigDecimal;
 
 /**
- * <p>
- *  前端控制器
- * </p>
+ * 前端控制器
  *
  * @author xiaorang
  * @since 2021-12-20
@@ -30,7 +28,7 @@ public class GoodsController {
   @GetMapping
   public String save() {
     goodsService.save(
-            Goods.builder().name("手机").code("0001").price(new BigDecimal("12.05")).build());
+        Goods.builder().name("指甲钳").price(new BigDecimal("3.5")).code("0002").build());
     return "success";
   }
 }

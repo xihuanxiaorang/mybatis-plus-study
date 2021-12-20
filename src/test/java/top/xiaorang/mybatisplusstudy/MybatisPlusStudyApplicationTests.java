@@ -4,10 +4,15 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.fill.Column;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 @SpringBootTest
 class MybatisPlusStudyApplicationTests {
@@ -17,7 +22,9 @@ class MybatisPlusStudyApplicationTests {
   private static final String PASSWORD = "123456";
 
   @Test
-  void contextLoads() {
+  void contextLoads() {}
+
+  public static void main(String[] args) {
     String projectPath = System.getProperty("user.dir");
     FastAutoGenerator.create(new DataSourceConfig.Builder(URL, USERNAME, PASSWORD))
         .globalConfig(
@@ -28,14 +35,16 @@ class MybatisPlusStudyApplicationTests {
                     .commentDate("yyyy-MM-dd")
                     .fileOverride()
                     .disableOpenDir()
+                    .dateType(DateType.ONLY_DATE)
                     .outputDir(projectPath + "/src/main/java"))
         .packageConfig(builder -> builder.parent("top.xiaorang.mybatisplusstudy"))
         .strategyConfig(
-            builder ->
+            (scanner, builder) ->
                 builder
-                    .addInclude("goods")
+                    .addInclude(getTables(scanner.apply("请输入表名，多个英文逗号分隔？所有输入 all")))
                     .controllerBuilder()
                     .enableRestStyle()
+                    .enableHyphenStyle()
                     .serviceBuilder()
                     .formatServiceFileName("%sService")
                     .mapperBuilder()
@@ -47,8 +56,14 @@ class MybatisPlusStudyApplicationTests {
                     .idType(IdType.ASSIGN_ID)
                     .addTableFills(
                         new Column("create_time", FieldFill.INSERT),
-                        new Column("update_time", FieldFill.INSERT_UPDATE)))
+                        new Column("update_time", FieldFill.INSERT_UPDATE))
+                    .build())
         .templateEngine(new FreemarkerTemplateEngine())
         .execute();
+  }
+
+  // 处理 all 情况
+  protected static List<String> getTables(String tables) {
+    return "all".equals(tables) ? Collections.emptyList() : Arrays.asList(tables.split(","));
   }
 }
