@@ -53,3 +53,5 @@ alter table goods
     add version int default 1 not null;
 alter table goods
     add deleted int default 0 not null;
+
+truncate table user;

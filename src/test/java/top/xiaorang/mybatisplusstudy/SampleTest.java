@@ -1,5 +1,9 @@
 package top.xiaorang.mybatisplusstudy;
 
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -116,5 +120,62 @@ public class SampleTest {
       goods.add(Goods.builder().name("鞋子" + i).build());
     }
     goodsService.saveBatch(goods);
+  }
+
+  @Test
+  public void testWrapper() {
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    queryWrapper.likeRight("name", "J");
+    List<User> users = userMapper.selectList(queryWrapper);
+    users.forEach(System.out::println);
+  }
+
+  @Test
+  public void testWrapper1() {
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    queryWrapper.likeRight("name", "J").gt("age", 18);
+    List<User> users = userMapper.selectList(queryWrapper);
+    users.forEach(System.out::println);
+  }
+
+  @Test
+  public void testWrapper2() {
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    queryWrapper.orderByAsc("age");
+    List<User> users = userMapper.selectList(queryWrapper);
+    users.forEach(System.out::println);
+  }
+
+  @Test
+  public void testWrapper3() {
+    QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+    queryWrapper.likeRight("name", "J").or().gt("age", 24).orderByAsc("age");
+    List<User> users = userMapper.selectList(queryWrapper);
+    users.forEach(System.out::println);
+  }
+
+  @Test
+  public void testWrapper4() {
+    LambdaQueryWrapper<User> queryWrapper = new LambdaQueryWrapper<>();
+    queryWrapper.likeRight(User::getName, "J").or().gt(User::getAge, 24).orderByAsc(User::getAge);
+    List<User> users = userMapper.selectList(queryWrapper);
+    users.forEach(System.out::println);
+  }
+
+  @Test
+  public void testWrapper5() {
+    LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+    updateWrapper.eq(User::getName, "Jone").set(User::getName, "xiaorang").set(User::getAge, 26);
+    int update = userMapper.update(null, updateWrapper);
+    System.out.println(update);
+  }
+
+  @Test
+  public void testWrapper6() {
+    LambdaUpdateWrapper<User> updateWrapper = new LambdaUpdateWrapper<>();
+    updateWrapper.eq(User::getName, "xiaorang");
+    User user = User.builder().name("Jone").age(18).build();
+    int update = userMapper.update(user, updateWrapper);
+    System.out.println(update);
   }
 }
