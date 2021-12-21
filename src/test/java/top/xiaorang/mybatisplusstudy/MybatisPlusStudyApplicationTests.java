@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.generator.FastAutoGenerator;
 import com.baomidou.mybatisplus.generator.config.DataSourceConfig;
+import com.baomidou.mybatisplus.generator.config.OutputFile;
 import com.baomidou.mybatisplus.generator.config.rules.DateType;
 import com.baomidou.mybatisplus.generator.engine.FreemarkerTemplateEngine;
 import com.baomidou.mybatisplus.generator.fill.Column;
@@ -37,7 +38,13 @@ class MybatisPlusStudyApplicationTests {
                     .disableOpenDir()
                     .dateType(DateType.ONLY_DATE)
                     .outputDir(projectPath + "/src/main/java"))
-        .packageConfig(builder -> builder.parent("top.xiaorang.mybatisplusstudy"))
+        .packageConfig(
+            builder ->
+                builder
+                    .parent("top.xiaorang.mybatisplusstudy")
+                    .pathInfo(
+                        Collections.singletonMap(
+                            OutputFile.mapperXml, projectPath + "/src/main/resources/mapper")))
         .strategyConfig(
             (scanner, builder) ->
                 builder
