@@ -12,6 +12,7 @@ import top.xiaorang.mybatisplusstudy.entity.Goods;
 import top.xiaorang.mybatisplusstudy.entity.User;
 import top.xiaorang.mybatisplusstudy.mapper.UserMapper;
 import top.xiaorang.mybatisplusstudy.service.GoodsService;
+import top.xiaorang.mybatisplusstudy.service.UserService;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,8 +21,9 @@ import java.util.List;
 
 @SpringBootTest
 public class SampleTest {
+  private static final int MAX_COUNT = 1000000;
   @Autowired private UserMapper userMapper;
-  @Autowired private GoodsService goodsService;
+  @Autowired private UserService userService;
 
   @Test
   public void testSelect() {
@@ -114,15 +116,6 @@ public class SampleTest {
   }
 
   @Test
-  public void testBatchSave() {
-    List<Goods> goods = new ArrayList<>();
-    for (int i = 0; i < 10000; i++) {
-      goods.add(Goods.builder().name("鞋子" + i).build());
-    }
-    goodsService.saveBatch(goods);
-  }
-
-  @Test
   public void testWrapper() {
     QueryWrapper<User> queryWrapper = new QueryWrapper<>();
     queryWrapper.likeRight("name", "J");
@@ -177,5 +170,41 @@ public class SampleTest {
     User user = User.builder().name("Jone").age(18).build();
     int update = userMapper.update(user, updateWrapper);
     System.out.println(update);
+  }
+
+  @Test
+  void testBatchSave() {
+    long start = System.currentTimeMillis(); // 统计开始时间
+    for (int i = 0; i < MAX_COUNT; i++) {
+      userMapper.insert(User.builder().name("test:" + i).build());
+    }
+    long end = System.currentTimeMillis(); // 统计结束时间
+    System.out.println("执行时间：" + (end - start));
+  }
+
+  @Test
+  void batchSave2() {
+    long start = System.currentTimeMillis(); // 统计开始时间
+    List<User> users = new ArrayList<>();
+    for (int i = 0; i < MAX_COUNT; i++) {
+      users.add(User.builder().name("test:" + i).build());
+    }
+    userService.saveBatch(users);
+    long end = System.currentTimeMillis(); // 统计结束时间
+    System.out.println("执行时间：" + (end - start));
+  }
+
+  @Test
+  void batchSave3() {
+    long start = System.currentTimeMillis(); // 统计开始时间
+    List<User> users = new ArrayList<>();
+    for (int i = 0; i < MAX_COUNT; i++) {
+      users.add(User.builder().id(i + 20L).name("test:" + i).build());
+      if (i % 10000 == 0 || i == MAX_COUNT - 1) {
+        userMapper.saveBatchByNative(users);
+      }
+    }
+    long end = System.currentTimeMillis(); // 统计结束时间
+    System.out.println("执行时间：" + (end - start));
   }
 }
